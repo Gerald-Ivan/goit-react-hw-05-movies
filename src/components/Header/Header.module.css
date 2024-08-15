@@ -1,0 +1,17 @@
+.link{
+    text-decoration: none;
+    border-radius: 4px;
+    color: slategray;
+    font-weight: 500;
+    padding: 8px 16px;
+
+}
+.linkActive{
+    composes: link;
+    color: ivory;
+    background-color: dimgray;
+}
+.headerContainer{
+    background-color: ivory;
+    height: 50px;
+}
