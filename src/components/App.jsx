@@ -1,29 +1,31 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import { SharedLayout } from './SharedLayout/SharedLayout'
-import { HomePage } from 'pages/HomePage/HomePage'
-import {MoviePage } from 'pages/MoviePage/MoviePage'
-import { MovieDetailsPage } from 'pages/MovieDetailsPage/MovieDetailsPage'
-import { CastList } from './CastList/CastList'
-import { Reviews } from './Reviews/Reviews'
-import { ErrorPage } from 'pages/ErrorPage/ErrorPage'
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { SharedLayout } from 'pages/SharedLayout/SharedLayout';
 
-
+const HomePage = lazy(() => import('pages/HomePage/HomePage'));
+const MoviesPage = lazy(() => import('pages/MoviePage/MoviePage'));
+const MovieDetailsPage = lazy(() => import('pages/MovieDetailsPage/MovieDetailsPage'));
+const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews= lazy(() => import('./Reviews/Reviews'));
 
 export const App = () => {
   return (
-    <>
-      <Routes>
-        |<Route path='/' element={<SharedLayout/>}>
-          <Route index element={<HomePage/>}/>
-          <Route path='movies' element={<MoviePage/>}/>
-            <Route path=':moviesId' element={<MovieDetailsPage/>}>
-              <Route path='cast' element={<CastList/>}/>
-              <Route path='Reviews' element={<Reviews/>}/>
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<SharedLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="movies" element={<MoviesPage />}>
+              <Route path=":movieId" element={<MovieDetailsPage />}>
+                <Route path="cast" element={<Cast />} />
+                <Route path="reviews" element={<Reviews />} />
+              </Route>
             </Route>
-        </Route> 
-        <Route path='*' element={<ErrorPage/>}/>
-      </Routes>
-    </>
-  )
-}
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </Suspense>
+    </div>
+  );
+};

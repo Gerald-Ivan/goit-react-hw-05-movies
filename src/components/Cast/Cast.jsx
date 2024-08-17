@@ -1,7 +1,48 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchMovieCast } from 'MoviesApi';
+import { CastList } from 'components/CastList/CastList';
+import css from './Cast'
 
-export const Cast = () => {
+const Cast = () => {
+  const { movieId } = useParams();
+  const [cast, setCast] = useState([]);
+
+  useEffect(() => {
+    const fetchCast = async () => {
+      try {
+        const response = await fetchMovieCast(movieId);
+        setCast(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCast();
+  }, [movieId]);
+
   return (
-    <div>Cast</div>
-  )
-}
+    <>
+      {cast.length !== 0 ? (
+        <div className={css.movieCast}>
+          <h2 className={css.header}>Movie Cast</h2>
+          <ul>
+            {cast.map(({ id, profile_path, original_name, name }) => (
+              <CastList
+                key={id}
+                id={id}
+                profilePath={profile_path}
+                originalName={original_name}
+                name={name}
+              />
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>We don't have any cast for this movie.</div>
+      )}
+    </>
+  );
+};
+
+export default Cast;

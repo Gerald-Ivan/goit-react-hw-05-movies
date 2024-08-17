@@ -1,0 +1,18 @@
+
+.addInfoBtn{
+  height: 50px;
+  width: 100px;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  border-style: none;
+}
+.addInfoBtn:hover{
+  background-color: rgb(109, 196, 115);
+}
+.movieDetailsPageContainer{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
